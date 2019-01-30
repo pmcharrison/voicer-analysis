@@ -35,7 +35,3 @@ randomly_revoice_chord <- function(x) {
   )
   sample(all)[[1]]
 }
-
-describe_dataset(bach_chorales_1[1:5])
-
-avg_roughness(x)
