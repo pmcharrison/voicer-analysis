@@ -1,18 +1,33 @@
-avg_roughness <- function(x) {
-  stopifnot(is(x, "vec"))
-  mean(map_dbl(x, incon, model = "hutch_78_roughness"))
+seq_single_feature <- function(f, x, ...) {
+  map_dbl(x, f, ...)
 }
-R.utils::mkdirs("cache/avg_roughness")
-avg_roughness <- memoise(avg_roughness, cache = cache_filesystem("cache/avg_roughness"))
 
-avg_vl_dist <- function(x) {
-  stopifnot(is(x, "vec"))
+seq_pair_feature <- function(f, x, ...) {
   n <- length(x)
-  if (n < 2) {
-    as.numeric(NA)
+  if (n == 0) {
+    numeric()
+  } else if (n == 1) {
+    as.numeric(NA) 
   } else {
-    mean(map2_dbl(x[- n], x[- 1], min_vl_dist, elt_type = "pitch"))
+    c(NA, map2_dbl(x[- n], x[- 1], f, ...))
   }
 }
-R.utils::mkdirs("cache/avg_vl_dist")
-avg_vl_dist <- memoise(avg_vl_dist, cache = cache_filesystem("cache/avg_vl_dist"))
+
+seq_features <- function(x) {
+  c(map(F_SINGLE, seq_single_feature, x),
+    map(F_PAIR, seq_pair_feature, x)) %>% 
+    as_tibble()
+}
+
+F_SINGLE <- list(
+  roughness = function(x) incon(x, model = "hutch_78_roughness"),
+  mean_pitch = mean,
+  max_pitch = max,
+  min_pitch = min
+)
+
+F_PAIR <- list(
+  vl_dist = function(a, b) min_vl_dist(a, b, elt_type = "pitch"),
+  melody_dist = voicer::melody_dist,
+  parallels = voicer::parallels
+)

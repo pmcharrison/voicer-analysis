@@ -6,32 +6,23 @@ library(minVL)
 library(memoise)
 library(voicer)
 loadNamespace("plyr")
-
-# For each piece of original Bach, 
-# what percentile does it fall in with respect to all possible voicings?
+library(futile.logger)
 
 for (f in list.files("src/functions/", full.names = TRUE)) source(f)
 
-random_voicing_distribution <- function(seq, n = 10) {
-  
+if (FALSE) {
+  forget(describe_corpus)
+  forget(randomly_revoice_corpus)
 }
 
-randomly_revoice_seq <- function(seq) {
-  map(seq, randomly_revoice_chord)
-  
-  map(seq, pc_set) %>% 
-    map(all_voicings_pc_set,
-        min_octave = -2, max_octave = 1, 
-        dbl_change = TRUE, dbl_min = 3, dbl_max = 4) %>% 
-    sample(1)
-}
+corp <- bach_chorales_1[1:3]
 
-randomly_revoice_chord <- function(x) {
-  stopifnot(length(x) == 4)
-  all <- all_voicings_pc_set(
-    pc_set(x),
-    min_octave = -2, max_octave = 1, 
-    dbl_change = TRUE, dbl_min = 3, dbl_max = 4
+if (FALSE) {
+  df <- bind_rows(
+    describe_original(corp),
+    revoice_and_describe_corpus(corp, n = 3)
   )
-  sample(all)[[1]]
 }
+
+
+
