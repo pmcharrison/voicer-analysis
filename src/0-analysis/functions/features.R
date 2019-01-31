@@ -29,5 +29,5 @@ F_SINGLE <- list(
 F_PAIR <- list(
   vl_dist = function(a, b) min_vl_dist(a, b, elt_type = "pitch"),
   melody_dist = voicer::melody_dist,
-  parallels = voicer::parallels
+  parallels = function(a, b) as.numeric(voicer::parallels(a, b))
 )

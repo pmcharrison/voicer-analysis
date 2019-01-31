@@ -1,3 +1,4 @@
+library(magrittr)
 library(tidyverse)
 library(hcorp)
 library(hrep)
@@ -12,16 +13,24 @@ for (f in list.files("src/0-analysis/functions", full.names = TRUE)) source(f)
 
 if (FALSE) {
   # Run these lines manually to clear memoised function caches
-  forget(describe_corpus)
-  forget(randomly_revoice_corpus)
+  forget(analyse_seq)
 }
 
-corp <- bach_chorales_1[1:3]
+corp <- bach_chorales_1
+# corp <- list(
+#   bach_chorales_1[[1]][1:3],
+#   bach_chorales_1[[2]][1:3]
+# )
 
-dat <- bind_rows(
-  describe_original(corp),
-  revoice_and_describe_corpus(corp, n = 1)
-)
+df <- analyse_corpus(corp)
 
 R.utils::mkdirs("output")
-write_csv(dat, "output/chord-features.csv")
+write_csv(df, "output/chord-features.rds")
+
+if (FALSE) {
+  library(mclogit)
+  m <- mclogit(
+    cbind(chosen, id) ~ hutch_78 + mean_pitch + min_pitch + vl_dist + melody_dist + parallels,
+    data = df %>% filter(pos > 1) %>%  mutate(chosen = as.integer(chosen))
+  )
+}
