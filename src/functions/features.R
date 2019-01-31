@@ -20,7 +20,7 @@ seq_features <- function(x) {
 }
 
 F_SINGLE <- list(
-  roughness = function(x) incon(x, model = "hutch_78_roughness"),
+  hutch_78 = function(x) incon(x, model = "hutch_78_roughness"),
   mean_pitch = mean,
   max_pitch = max,
   min_pitch = min
