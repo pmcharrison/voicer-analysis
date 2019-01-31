@@ -1,4 +1,4 @@
-fit_tree <- function(x) {
+fit_tree <- function(x, max_depth) {
   stopifnot(!any(grepl(" ", names(x))))
   df <- x %>% 
     select(- c(revoice_corpus_id, piece_id)) %>% 
@@ -18,5 +18,5 @@ fit_tree <- function(x) {
            `Melody_distance` = "melody_dist",
            `Parallels` = "parallels"
     )
-  ctree(corpus_type ~ ., data = df)
+  ctree(corpus_type ~ ., data = df, maxdepth = max_depth)
 }
