@@ -1,4 +1,5 @@
 fit_tree <- function(x) {
+  stopifnot(!any(grepl(" ", names(x))))
   df <- x %>% 
     select(- c(revoice_corpus_id, piece_id)) %>% 
     na.omit() %>% 
