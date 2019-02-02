@@ -31,8 +31,7 @@ analyse_corpus <- function(x) {
     add_column(id = NA, .before = 1) %>% 
     mutate(id = paste(seq, pos, sep = "-"),
            id = factor(id, levels = unique(id), ordered = TRUE),
-           id = as.integer(id)) %>%
-    test_corpus_analysis(x)
+           id = as.integer(id))
 }
 
 test_corpus_analysis <- function(df, corp) {
@@ -41,7 +40,7 @@ test_corpus_analysis <- function(df, corp) {
   df %>% filter(id == 2) %>% pull(chosen_voicing) %>% {.[[1]]} %>% expect_equal(corp[[1]][[2]])
   df %>% filter(id == 2) %>% pull(prev_voicing) %>% {.[[1]]} %>% expect_equal(corp[[1]][[1]])
   df %>% filter(id == 2 & chosen) %>% pull(voicing) %>% {.[[1]]} %>% expect_equal(corp[[1]][[2]])
-  df %>% filter(id == length(corp[[1]]) + 1) %>% pull(chosen_voicing) %>% {.[[1]]} %>% 
+  df %>% filter(id == length(corp[[1]]) + 1) %>% pull(chosen_voicing) %>% {.[[1]]} %>%
     expect_equal(corp[[2]][[1]])
   df
 }
@@ -59,9 +58,9 @@ analyse_chord_revoicing <- function(voicing, chosen_voicing, prev_chord_voicing)
   c(res_single, 
     res_pair) %>% 
     as_tibble() %>% 
-    add_column(voicing = list(voicing), .before = 1) %>% 
-    add_column(prev_voicing = list(prev_chord_voicing), .before = 1) %>% 
-    add_column(chosen_voicing = list(chosen_voicing), .before = 1) %>% 
+    # add_column(voicing = list(voicing), .before = 1) %>% 
+    # add_column(prev_voicing = list(prev_chord_voicing), .before = 1) %>% 
+    # add_column(chosen_voicing = list(chosen_voicing), .before = 1) %>% 
     add_column(chosen = identical(as.integer(voicing), as.integer(chosen_voicing)),
                .before = 1)
 }
