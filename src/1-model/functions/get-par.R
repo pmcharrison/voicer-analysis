@@ -1,0 +1,15 @@
+get_par <- function(downsample = 500000,
+                    top = 72L,
+                    middle = 60L,
+                    bottom = 48L,
+                    features = c("hutch_78", "vl_dist", "melody_dist",
+                                 "parallels", 
+                                 "dist_from_middle",
+                                 "dist_above_top",
+                                 "dist_below_bottom"),
+                    xval_fold = 10,
+                    xval_rep = 10) {
+  formula <- glue("cbind(chosen, id) ~ {paste(features, collapse = '+')}") %>% 
+    as.formula
+  as.list(environment())
+}
