@@ -1,4 +1,5 @@
 library(magrittr)
+library(testthat)
 library(tidyverse)
 library(mclogit)
 library(glue)
@@ -15,3 +16,5 @@ perm_int <- get_perm_int(dat, par, mod_eval, mod) %T>%
 
 pred_failure <- get_pred_failure(dat, mod_eval, par)
 pred_failure %>% select(- preview_seq) %>% write_csv("output/pred-failure.csv")
+
+check_pred("output/mod.csv", dat, mod, par)
