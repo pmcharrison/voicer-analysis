@@ -12,25 +12,11 @@ library(futile.logger)
 for (f in list.files("src/0-analysis/functions", full.names = TRUE)) source(f)
 
 if (FALSE) {
-  # Run these lines manually to clear memoised function caches
+  # Run this manually to clear memoised function cache
   forget(analyse_seq)
 }
 
-corp <- bach_chorales_1
-# corp <- list(
-#   bach_chorales_1[[1]][1:3],
-#   bach_chorales_1[[2]][1:3]
-# )
-
-df <- analyse_corpus(corp)
+df <- analyse_corpus(hcorp::bach_chorales_1)
 
 R.utils::mkdirs("output")
-write_csv(df, "output/chord-features.rds")
-
-if (FALSE) {
-  library(mclogit)
-  m <- mclogit(
-    cbind(chosen, id) ~ hutch_78 + mean_pitch + min_pitch + vl_dist + melody_dist + parallels,
-    data = df %>% filter(pos > 1) %>%  mutate(chosen = as.integer(chosen))
-  )
-}
+saveRDS(df, "output/chord-features.rds")
