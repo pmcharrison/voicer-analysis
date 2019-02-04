@@ -7,8 +7,9 @@ get_par <- function(downsample = 500000,
                                  "dist_from_middle",
                                  "dist_above_top",
                                  "dist_below_bottom"),
-                    xval_fold = 10,
-                    xval_rep = 10) {
+                    n_pred_failure = 10L,
+                    preview_window_before = 4L,
+                    preview_window_after = 5L) {
   formula <- glue("cbind(chosen, id) ~ {paste(features, collapse = '+')}") %>% 
     as.formula
   as.list(environment())
