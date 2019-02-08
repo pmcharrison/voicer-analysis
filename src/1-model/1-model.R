@@ -6,7 +6,7 @@ library(glue)
 for (f in list.files("src/1-model/functions", full.names = TRUE)) source(f)
 
 par <- get_par()
-dat <- readRDS("output/chord-features.rds") %>% preprocess(par)
+dat <- readRDS("output/pc-chord-features.rds") %>% preprocess(par)
 moments <- get_moments(dat, par) %T>% write_csv("output/moments.csv")
 mod <- fit_model(dat, par) %>% save_mod("output/mod.csv")
 mod_eval <- eval_mod(mod, dat) %T>% {write_csv(.$summary, "output/mod-eval.csv")}
