@@ -14,7 +14,9 @@ mod_eval <- eval_mod(mod, dat) %T>% {write_csv(.$summary, "output/mod-eval.csv")
 perm_int <- get_perm_int(dat, par, mod_eval, mod) %T>% 
   write_csv("output/perm-int.csv")
 
-pred_failure <- get_pred_failure(dat, mod_eval, par)
-pred_failure %>% select(- preview_seq) %>% write_csv("output/pred-failure.csv")
+if (FALSE) {
+  pred_failure <- get_pred_failure(dat, mod_eval, par)
+  pred_failure %>% select(- preview_seq) %>% write_csv("output/pred-failure.csv")
+}
 
 check_pred("output/mod.csv", dat, mod, par)
