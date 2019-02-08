@@ -28,7 +28,10 @@ eval_chord_pred <- function(x) {
     num_options = nrow(x),
     abs_rank = rank(- x$pred)[x$chosen],
     pct_rank = (abs_rank - 0.5) / num_options
-  ) %T>% {stopifnot(nrow(.) == 1L)}
+  ) %T>% {
+    if (nrow(.) != 1L) browser()
+    stopifnot(nrow(.) == 1L)
+  }
 }
 
 summarise_chord_preds <- function(x) {
