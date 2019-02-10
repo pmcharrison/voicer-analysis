@@ -1,12 +1,15 @@
-get_pred_failure <- function(dat, mod_eval, par) {
-  res <- mod_eval$by_chord %>% 
+get_pred_failure <- function(dat, mod,
+                             n_pred_failure = 10L,
+                             preview_window_before = 4L,
+                             preview_window_after = 5L) {
+  res <- mod$eval$by_chord %>% 
     arrange(probability) %>% 
-    slice(seq_len(par$n_pred_failure)) %>% 
+    slice(seq_len(n_pred_failure)) %>% 
     left_join(dat %>% filter(chosen == 1), by = "id") %>% 
     mutate(
       seq_length = map_int(seq, ~ length(hcorp::bach_chorales_1[[.]])),
-      preview_begin = pmax(1L, pos - par$preview_window_before),
-      preview_end = pmin(seq_length, pos + par$preview_window_after),
+      preview_begin = pmax(1L, pos - preview_window_before),
+      preview_end = pmin(seq_length, pos + preview_window_after),
       preview_target = pos - preview_begin + 1L,
       preview_seq = pmap(list(seq, preview_begin, preview_end), 
                          ~ hcorp::bach_chorales_1[[..1]][..2:..3])
@@ -16,13 +19,13 @@ get_pred_failure <- function(dat, mod_eval, par) {
          select(seq, pos, preview_begin, preview_end,
                 preview_target, preview_seq) %>% 
          mutate(i = seq_len(n())),
-       save_preview, par)
+       save_preview, n_pred_failure)
   res
 }
 
 save_preview <- function(seq, pos, preview_begin, preview_end,
-                         preview_target, preview_seq, i, par) {
-  message("Saving prediction failure ", i, " out of ", par$n_pred_failure, "...")
+                         preview_target, preview_seq, i, n_pred_failure) {
+  message("Saving prediction failure ", i, " out of ", n_pred_failure, "...")
   dir <- "output/pred-failure"
   R.utils::mkdirs(dir)
   file <- "ex-{i}_seq-{seq}_begin-{preview_begin}_end-{preview_end}.pdf" %>% 
