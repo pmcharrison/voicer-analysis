@@ -1,52 +1,26 @@
-library(magrittr)
-library(tidyverse)
-library(hrep)
-library(voicer)
 
-mod <- readRDS("output/mod.rds")
-R.utils::mkdirs("output")
-
-draw <- function(x, chords_per_line = 10, staff_width = 500, height = 0.9) {
-  file <- tempfile(fileext = ".pdf")
-  x %>% 
-    abcR::html_from_pi_chord_seq(chords_per_line = chords_per_line, 
-                                 staff_width = staff_width) %>% 
-    abcR::pdf_from_abc_html(file)
-  y <- magick::image_read_pdf(file)
-  cowplot::ggdraw() + 
-    cowplot::draw_image(y, height = height)
-}
-
-chor <- hcorp::bach_chorales_1[[1]][1:10]
-
-# Original chorale
-p1 <- draw(chor)
-
-# Pitch-class chord revoicing
-x2 <- chor %>% 
-  hrep::transform_symbols(hrep::pc_chord, "pc_chord") %>% 
+# Pitch-class chord revoicing (normalised)
+x1.5 <- hcorp::bach_chorales_1[[1]] %>%
+  hrep::transform_symbols(hrep::pc_chord, "pc_chord") %>%
   voice(opt = voice_opt(weights = mod,
-                        min_octave = -2, 
+                        min_octave = -2,
                         max_octave = 1,
-                        dbl_change = TRUE, 
-                        dbl_min = 1, 
+                        dbl_change = TRUE,
+                        dbl_min = 1,
                         dbl_max = 4,
-                        exponentiate = FALSE,
-                        norm_cost = FALSE))
+                        exp_cost = TRUE,
+                        norm_cost = TRUE,
+                        log_cost = TRUE))
+
+x1.5 %>%
+  abcR::html_from_pi_chord_seq(chords_per_line = 10,
+                               staff_width = 500) %>%
+  abcR::pdf_from_abc_html(pdf_path = "output/ex-probabilistic.pdf")
+
+
 p2 <- draw(x2)
 
-# Pitch-class set revoicing
-x3 <- chor %>% 
-  hrep::transform_symbols(hrep::pc_set, "pc_set") %>% 
-  voice(opt = voice_opt(weights = mod,
-                        min_octave = -2, 
-                        max_octave = 1,
-                        dbl_change = TRUE, 
-                        dbl_min = 1, 
-                        dbl_max = 4,
-                        exponentiate = FALSE,
-                        norm_cost = FALSE))
-p3 <- draw(x3)
+
 
 # Jazz example
 x4 <- hcorp::jazz_1[[1]][1:10] %>% 
