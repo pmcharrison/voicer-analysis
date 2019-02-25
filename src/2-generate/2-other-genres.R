@@ -12,8 +12,8 @@ seqs$jazz_voiced <- seqs$jazz_heuristic %>%
                         min_octave = -2, 
                         max_octave = 1,
                         dbl_change = TRUE, 
-                        dbl_min = 1, 
-                        dbl_max = 4))
+                        min_notes = 1, 
+                        max_notes = 4))
 
 seqs$popular_heuristic <- hcorp::popular_1[[2]][1:10] %>% 
   hrep::decode() %>% 
@@ -25,8 +25,8 @@ seqs$popular_voiced <- seqs$popular_heuristic %>%
                         min_octave = -2, 
                         max_octave = 1,
                         dbl_change = TRUE, 
-                        dbl_min = 1, 
-                        dbl_max = 4))
+                        min_notes = 1, 
+                        max_notes = 4))
 
 plots <- purrr::map(seqs, draw, staff_width = 650)
 
@@ -35,4 +35,4 @@ cowplot::plot_grid(plotlist = plots,
                    labels = "AUTO",
                    label_size = 20,
                    label_y = 0.5) %>% 
-  ggplot2::ggsave("output/other-genres.pdf", plot = ., width = 9.5, height = 9)
+  ggplot2::ggsave("output/other-genres.pdf", plot = ., width = 12, height = 9)
