@@ -18,3 +18,10 @@ devtools::install_github(paste(
     "abcR"
   ),
   sep = "/"))
+
+webshot::install_phantomjs()
+
+install.packages("pdftools")
+# This may fail and return some instructions on installing poppler-cpp.
+# Follow these instructions and try to install pdftools again.
+
