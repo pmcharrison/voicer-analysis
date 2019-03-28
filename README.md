@@ -1,5 +1,7 @@
 # voicer-analysis
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2613563.svg)](https://doi.org/10.5281/zenodo.2613563)
+
 This repository provides source code for the analyses reported 
 in Harrison & Pearce (2019), 
 "A Computational Model for the Analysis and Generation of Chord Voicings".
