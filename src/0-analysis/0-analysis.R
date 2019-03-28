@@ -11,8 +11,8 @@ get_corpus_features <- function(x, revoice_from) {
                               min_octave = -2,
                               max_octave = 1,
                               dbl_change = TRUE,
-                              dbl_min = 1,
-                              dbl_max = 4)
+                              min_notes = 1,
+                              max_notes = 4)
 }
 
 R.utils::mkdirs("output")

@@ -1,3 +1,4 @@
+for (f in list.files("src/2-generate/functions", full.names = TRUE)) source(f)
 
 # Pitch-class chord revoicing (normalised)
 x1.5 <- hcorp::bach_chorales_1[[1]] %>%
@@ -6,8 +7,8 @@ x1.5 <- hcorp::bach_chorales_1[[1]] %>%
                         min_octave = -2,
                         max_octave = 1,
                         dbl_change = TRUE,
-                        dbl_min = 1,
-                        dbl_max = 4,
+                        min_notes = 1,
+                        max_notes = 4,
                         exp_cost = TRUE,
                         norm_cost = TRUE,
                         log_cost = TRUE))
@@ -30,9 +31,9 @@ x4 <- hcorp::jazz_1[[1]][1:10] %>%
                         min_octave = -2, 
                         max_octave = 1,
                         dbl_change = TRUE, 
-                        dbl_min = 1, 
-                        dbl_max = 4,
-                        exponentiate = FALSE,
+                        min_notes = 1, 
+                        max_notes = 4,
+                        exp_cost = FALSE,
                         norm_cost = FALSE))
 p4 <- draw(x4)
 
@@ -56,10 +57,10 @@ if (FALSE) {
                             min_octave = -2, 
                             max_octave = 1,
                             dbl_change = TRUE, 
-                            dbl_min = 1, 
-                            dbl_max = 4,
+                            min_notes = 1, 
+                            max_notes = 4,
                             verbose = FALSE,
-                            exponentiate = FALSE,
+                            exp_cost = FALSE,
                             norm_cost = FALSE)) %>% 
       abcR::html_from_pi_chord_seq(chords_per_line = 10, 
                                    staff_width = 500) %>% 
