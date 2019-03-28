@@ -10,7 +10,6 @@ get_corpus_features <- function(x, revoice_from) {
                               revoice_from = revoice_from,
                               min_octave = -2,
                               max_octave = 1,
-                              dbl_change = TRUE,
                               min_notes = 1,
                               max_notes = 4)
 }
