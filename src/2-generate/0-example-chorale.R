@@ -27,9 +27,9 @@ seqs$pc_chord <- chor %>%
                         log_cost = FALSE))
 plots$pc_chord <- draw(seqs$pc_chord)
 
-# Pitch-class set revoicing
-seqs$pc_set <- chor %>% 
-  hrep::transform_symbols(hrep::pc_set, "pc_set") %>% 
+# Pitch-class chord revoicing (with melody prespecified)
+seqs$pc_chord_fixed_melody <- chor %>% 
+  hrep::transform_symbols(hrep::pc_chord, "pc_chord") %>% 
   voice(opt = voice_opt(weights = mod,
                         min_octave = -2, 
                         max_octave = 1,
@@ -38,8 +38,9 @@ seqs$pc_set <- chor %>%
                         max_notes = 4,
                         exp_cost = FALSE,
                         norm_cost = FALSE,
-                        log_cost = FALSE))
-plots$pc_set <- draw(seqs$pc_set)
+                        log_cost = FALSE), 
+        fix_melody = map_int(chor, max))
+plots$pc_chord_fixed_melody <- draw(seqs$pc_chord)
 
 # Combined plot
 cowplot::plot_grid(plotlist = plots,
