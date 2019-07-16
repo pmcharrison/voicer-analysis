@@ -40,7 +40,7 @@ seqs$pc_chord_fixed_melody <- chor %>%
                         norm_cost = FALSE,
                         log_cost = FALSE), 
         fix_melody = map_int(chor, max))
-plots$pc_chord_fixed_melody <- draw(seqs$pc_chord)
+plots$pc_chord_fixed_melody <- draw(seqs$pc_chord_fixed_melody)
 
 # Combined plot
 cowplot::plot_grid(plotlist = plots,
